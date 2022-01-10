@@ -22,7 +22,7 @@ class Result:
 
 		if arity == 0:
 			ax.hist(x, label=label, bins=100)
-			ax.set_ylabel('Weight')
+			ax.set_xlabel('Weight')
 		elif arity == 1:
 			ax.scatter(x, y, cmap='YlOrRd', label=label)
 			ax.set_ylabel('Weight')
