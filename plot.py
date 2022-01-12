@@ -21,14 +21,17 @@ class Result:
 		z = self.timing.matrix[:, 2]
 
 		if arity == 0:
-			ax.hist(x, label=label, bins=100)
-			ax.set_xlabel('Weight')
+			ax.hist(x, label=label, bins=200, alpha=1)
+			#hist, bins = np.histogram(x, bins=200)
+			#ax.plot(bins[:-1], hist, label=label)
+			ax.set_ylabel('Occurences')
+			ax.set_xlabel('Weight (further left is better)')
 		elif arity == 1:
-			ax.scatter(x, y, cmap='YlOrRd', label=label)
-			ax.set_ylabel('Weight')
+			ax.scatter(x, y, label=label, alpha=.5)
+			ax.set_ylabel('Weight (lower is better)')
 		elif arity == 2:
-			ax.scatter(x, y, z, cmap='YlOrRd', label=label)
-			ax.set_zlabel('Weight')
+			ax.scatter(x, y, z, label=label, alpha=.5)
+			ax.set_zlabel('Weight (lower is better)')
 		else:
 			raise Exception("Cannot show functions with arity > 2")
 		
@@ -68,6 +71,9 @@ def main():
 	many = args.rows * args.cols
 	for chunk in chunks(results, many):
 		fig = plt.figure()
+		fig.set_size_inches(38.4, 21.6, forward=True)
+		fig.tight_layout()
+		fig.subplots_adjust(top=.95, bottom=.05, left=.05, right=.95, hspace=.2, wspace=.1)
 		for (i, title) in enumerate(chunk):
 			# Metadata is the same in all files, so just take 0.
 			meta = results[title][files[0]].meta
@@ -86,12 +92,15 @@ def main():
 			# Auto-generate legend for ax.
 			ax.legend()
 
-		# Put a test at the bottom of the figure.
-		fig.text(0.5, 0.01, "Lower is better", ha="center")
+		fig.text(0.5, 0.01, "source at github.com/ggwpez/substrate-bench", ha='center')
 		# Show plt as full screen without toolbar.
-		mng = plt.get_current_fig_manager()
-		mng.full_screen_toggle()
-		plt.show()
+		#mng = plt.get_current_fig_manager()
+		#mng.window.showMaximized()
+
+		plt.savefig("out.png")
+		return
+		#plt.show()
+		
 
 def parse_file(filename, args):
 	lines = read_file_lines(filename)

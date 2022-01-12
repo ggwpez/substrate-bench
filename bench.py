@@ -3,13 +3,16 @@ import subprocess
 import sys
 import os
 
-base_cmd="cargo run --profile=%s --features=runtime-benchmarks --manifest-path=bin/node/cli/Cargo.toml --quiet -- benchmark --chain=dev --execution=wasm --wasm-execution=compiled --steps=50 --repeat=20 --raw"
+base_cmd="cargo run --profile=%s --features=runtime-benchmarks --manifest-path=bin/node/cli/Cargo.toml --quiet %s -- benchmark --chain=dev --execution=wasm --wasm-execution=compiled --steps=50 --repeat=200 --raw"
 
 def parse_args():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--profiles', nargs='+', help='Rust profiles to use')
 	parser.add_argument('--pallets', nargs='+', help='Pallets to run')
+	parser.add_argument('--ext', type=str, default='*', help='Regex for the extrinsics to run')
 	parser.add_argument('--cwd', type=str, help='Substrate root directory', default=".")
+	parser.add_argument('--args', type=str, help='Pass through to benchmark', default="")
+	parser.add_argument('--cargo', type=str, help='Pass through to cargo', default="")
 	return parser.parse_args()
 
 def list_benches(cmd, cwd):
@@ -31,11 +34,11 @@ def run_benches(cmd, f, cwd):
 	stdout = p.communicate()[0]
 	f.write(stdout.decode('utf-8'))
 
-def run_pallet(pallet, profile, f, cwd):
-	cmd = (base_cmd % profile) + " --pallet=%s --extrinsic='*'" % pallet
-	print("%s: %s.*" % (profile, pallet))
-	list_benches(cmd + " --list", cwd)
-	run_benches(cmd, f, cwd)
+def run_pallet(pallet, ext, profile, f, args):
+	cmd = (base_cmd % (profile, args.cargo)) + (" --pallet=%s --extrinsic='%s'" % (pallet, ext)) + args.args
+	print("%s: %s.%s" % (profile, pallet, ext))
+	list_benches(cmd + " --list", args.cwd)
+	run_benches(cmd, f, args.cwd)
 
 def main():
 	args = parse_args()
@@ -47,7 +50,7 @@ def main():
 		fname = "results/%s.txt" % profile
 		with open(fname, 'w') as f:
 			for pallet in args.pallets:
-				run_pallet(pallet, profile, f, args.cwd)
+				run_pallet(pallet, args.ext, profile, f, args)
 			print("Wrote to: %s\n" % fname)
 
 if __name__ == '__main__':
