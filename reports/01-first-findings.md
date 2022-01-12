@@ -1,4 +1,4 @@
-I tested multiple compiler flags for `rustc nightly-2021-12-03`.
+I tested multiple compiler flags to see if we get increased benchmarking performance.
 
 Below you can see the outcome of the first experiments for the `balances` pallet.  
 This should just show what *can* be done, since it is by no means exhaustive.  
