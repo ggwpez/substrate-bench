@@ -1,6 +1,4 @@
-import sys
 import re
-import csv
 import numpy as np
 import argparse
 import matplotlib.pyplot as plt

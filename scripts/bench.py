@@ -3,7 +3,7 @@ import subprocess
 import sys
 import os
 
-base_cmd="cargo run --profile=%s --features=runtime-benchmarks --manifest-path=bin/node/cli/Cargo.toml --quiet %s -- benchmark --chain=dev --execution=wasm --wasm-execution=compiled --steps=50 --repeat=200 --raw"
+base_cmd="cargo run --profile=%s --features=runtime-benchmarks --manifest-path=bin/node/cli/Cargo.toml --quiet %s -- benchmark --chain=dev --execution=wasm --wasm-execution=compiled --steps=50 --repeat=20 --raw"
 
 def parse_args():
 	parser = argparse.ArgumentParser()
