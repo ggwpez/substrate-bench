@@ -10,7 +10,11 @@ Very simple; enable optimization flags and re-run all benchmarks.
 
 1. Clone the [Substrate repo](https://github.com/paritytech/substrate).
 2. Append a new *profile* to the `Cargo.toml`. Append [Cargo.toml.sample](Cargo.toml.sample) for your convenience.
-3. Execute the [run.py](run.py) script in the Substrate root with your newly added *profile*:
+3. Set rust flags that cannot be configured in the `Cargo.toml`.
+	```sh
+	export RUSTFLAGS="-C target-cpu=native"
+	```
+4. Execute the [run.py](run.py) script in the Substrate root with your newly added *profile*:
 	```sh
 	python3 ../path-to-run.py --profile optimized --skip pallet_offences pallet_mmr pallet_babe pallet_grandpa
 	```
