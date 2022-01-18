@@ -3,7 +3,7 @@ import subprocess
 import datetime
 
 base_compile = "cargo build --profile=%s --locked --features=runtime-benchmarks --features=runtime-benchmarks --manifest-path=bin/node/cli/Cargo.toml"
-bench = "./target/%s/substrate benchmark --chain=dev --steps=50 --repeat=20 --pallet='%s' --extrinsic='%s' --execution=wasm --wasm-execution compiled --output=%s/weights.rs --template=.maintain/frame-weight-template.hbs --header=HEADER-APACHE2 --raw"
+bench = "./target/%s/substrate benchmark --chain=dev --steps=50 --repeat=20 --pallet='%s' --extrinsic='%s' --execution=wasm --wasm-execution=compiled --heap-pages=4096 --output=%s/weights.rs --template=.maintain/frame-weight-template.hbs --header=HEADER-APACHE2 --raw"
 
 def main(args):
 	subprocess.run("mkdir -p %s" % args.raw_dir, shell=True)
@@ -85,13 +85,13 @@ def parse_args():
 	parser.add_argument('--cwd', type=str, help='Substrate root directory', default=".")
 	parser.add_argument('--skip', nargs='+', help='Comma-separated list of pallets to skip.', default="")
 	parser.add_argument('--no-compile', action='store_true', help='Skip compilation.')
-	parser.add_argument('--weight-dir', type=str, help='Weight output directory', default=None)
-	parser.add_argument('--raw-dir', type=str, help='Raw output directory', default=None)
+	parser.add_argument('--weight-dir', type=str, help='Relative weight output directory', default=None)
+	parser.add_argument('--raw-dir', type=str, help='Relative raw output directory', default=None)
 	args = parser.parse_args()
 	if args.weight_dir is None:
-		args.weight_dir = "weights-%s" % args.profile
+		args.weight_dir = "%s/weights-%s" % (args.cwd, args.profile)
 	if args.raw_dir is None:
-		args.raw_dir = "raw-%s" % args.profile
+		args.raw_dir = "%s/raw-%s" % (args.cwd, args.profile)
 	return args
 
 def progress(count, total, status=''):

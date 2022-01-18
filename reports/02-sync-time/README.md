@@ -11,6 +11,8 @@ This information can be extracted from a [log file](./logs/dot-8m.log) when runn
 Chat propsed it could be due to the introduction of parachains.  
 To (dis)prove this; I will repeat the procedure for Kusama to see if the drop also occurs at the time of parachain introduction.
 
+WIP: Parachain starts ca. https://polkascan.io/polkadot/block/7570000#events and https://polkascan.io/kusama/block/7680000#events
+
 # Setup
 
 The idea is to sync up an Archive node, export the data, purge the data and measure the time it takes to import the chain into an empty node.

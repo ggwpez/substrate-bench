@@ -48,12 +48,12 @@ def main():
 
 	# Config and show the plot.
 	plt.subplots_adjust(left=0.1, right=.9, top=0.9, bottom=0.1)
-	plt.title("Polkadot import-blocks time")
-	plt.xlabel("Sync time [s]")
+	plt.title("Polkadot import-blocks time and speed.\nThe shaky graph is the speed.")
+	ax1.set_xlabel("Sync time [s]")
 	ax1.set_ylabel("Sync speed [bps] (higher is better)")
 	ax2.set_ylabel("Blocks (higher is better)")
 	plt.legend()
-	plt.show()
+	#plt.show()
 	plt.savefig("import-blocks.png")
 
 def parse_file(filename):

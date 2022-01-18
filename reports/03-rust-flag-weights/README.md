@@ -9,12 +9,12 @@ The Substrate tracking issue is [substrate/#10608](https://github.com/paritytech
 Very simple; enable optimization flags and re-run all benchmarks.
 
 1. Clone the [Substrate repo](https://github.com/paritytech/substrate).
-2. Append a new *profile* to the `Cargo.toml`. You can use the [Cargo.toml.sample](Cargo.toml.sample) for your convenience.
-3. Execute the [run.py](run.py) script with your newly added *profile*:
+2. Append a new *profile* to the `Cargo.toml`. Append [Cargo.toml.sample](Cargo.toml.sample) for your convenience.
+3. Execute the [run.py](run.py) script in the Substrate root with your newly added *profile*:
 	```sh
-	python3 run.py --profile optimized --skip pallet_offences pallet_mmr pallet_babe pallet_grandpa --cwd ../path-to-substrate
+	python3 ../path-to-run.py --profile optimized --skip pallet_offences pallet_mmr pallet_babe pallet_grandpa
 	```
-	**Note** Expect for `offences` ([#10027](https://github.com/paritytech/substrate/issues/10027)), the `--skip`ed pallets do not have `weight.rs` files. They have `default_weights.rs` instead and need to ne addressed manually.
+	**Note** Except for `offences` ([#10027](https://github.com/paritytech/substrate/issues/10027)), the `--skip`ed pallets do not have `weight.rs` files. They have `default_weights.rs` instead and need to ne addressed manually.
 4. You should be seeing something like this:
    ```pre
 	2022-01-18 13:00:48: Compiling ...
