@@ -14,7 +14,7 @@ Very simple; enable optimization flags and re-run all benchmarks.
 	```sh
 	python3 ../path-to-run.py --profile optimized --skip pallet_offences pallet_mmr pallet_babe pallet_grandpa
 	```
-	**Note** Except for `offences` ([#10027](https://github.com/paritytech/substrate/issues/10027)), the `--skip`ed pallets do not have `weight.rs` files. They have `default_weights.rs` instead and need to ne addressed manually.
+	**Note** Except for `offences` ([#10027](https://github.com/paritytech/substrate/issues/10027)), the `--skip`ed pallets do not have `weight.rs` files. They have `default_weights.rs` instead and need to ne addressed manually. TODO: how?
 4. You should be seeing something like this:
    ```pre
 	2022-01-18 13:00:48: Compiling ...
@@ -27,6 +27,6 @@ Very simple; enable optimization flags and re-run all benchmarks.
 	2022-01-18 13:04:37: You can enact the new weights with
 	cp -RT weights-optimized/frame ./frame
    ```
-5. Inspect the weights in `weights-optimized/frame`. They are written to a different directory per default to allow it to re-run without re-compile. You can then copy them over with the command logged above.
+5. Inspect the weights in `weights-optimized/frame`. They are written to a different directory per default to allow it to re-run without re-compilation. You can then copy them over with the command logged above.
 The raw files in `raw-optimized` offer advanced introspection.
 1. Nice, you now have lower weights!
