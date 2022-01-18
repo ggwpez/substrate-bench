@@ -18,7 +18,7 @@ def main():
 	args = parse_args()
 	files = args.files
 	
-	plt.style.use('dark_background')
+	#plt.style.use('dark_background')
 	fig, ax1 = plt.subplots()
 	# Set the background color to gray.
 	ax2 = ax1.twinx()
@@ -39,22 +39,22 @@ def main():
 
 		# Plot the derivative.
 		diff = np.diff(y)/np.diff(x)
-		diff = gaussian_filter1d(diff, 6)
+		#diff = gaussian_filter1d(diff, 6)
 
 		title = filename.split("/")[-1].split(".")[0]
-		ax2.plot(x[:-1], diff, linewidth=1, label=title)		
+		ax1.plot(x[:-1], diff, linewidth=1, label=title)		
 		# Plot value.
-		ax1.plot(x, y, linewidth=5, label=title)
+		ax2.plot(x, y, linewidth=1, label=title)
 
 	# Config and show the plot.
 	plt.subplots_adjust(left=0.1, right=.9, top=0.9, bottom=0.1)
 	plt.title("Polkadot import-blocks time")
 	plt.xlabel("Sync time [s]")
-	ax2.set_ylabel("Sync speed [bps] (higher is better)")
-	ax1.set_ylabel("Blocks (higher is better)")
+	ax1.set_ylabel("Sync speed [bps] (higher is better)")
+	ax2.set_ylabel("Blocks (higher is better)")
 	plt.legend()
 	plt.show()
-	#plt.savefig("import-blocks.png")
+	plt.savefig("import-blocks.png")
 
 def parse_file(filename):
 	with open(filename) as f:

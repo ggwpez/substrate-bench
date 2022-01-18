@@ -1,0 +1,6 @@
+# Just copy&paste this at the end of your Cargo.toml.
+
+[profile.optimized]
+inherits = "release"
+lto = "fat"
+codegen-units = 1

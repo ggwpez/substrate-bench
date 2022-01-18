@@ -12,7 +12,7 @@ You will need a rust version that supports the `--profile` option, eg: `nightly-
 
 Example invocation for the profiles `release` and `lto-fat` with pallets `balances` and `lottery`:
 ```sh
-python bench.py --profiles release lto-fat --pallets pallet-balances pallet-lottery --cwd ../path-to-substrate-repo
+python3 bench.py --profiles release lto-fat --pallets pallet-balances pallet-lottery --cwd ../path-to-substrate-repo
 ```
 This (over)writes one `.txt` file per profile into a `results` folder. Each file contains the timings of all extrinsics of the selected pallets in raw format.  
 The options for the benchmark are taken from the [bench-bot].

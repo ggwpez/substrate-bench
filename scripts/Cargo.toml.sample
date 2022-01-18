@@ -1,0 +1,25 @@
+# Your normal Cargo.toml code...
+
+# Define some additional profiles that will be used:
+
+[profile.lto-fat]
+inherits = "release"
+lto = "fat"
+
+[profile.lto-thin]
+inherits = "release"
+lto = "thin"
+
+[profile.cg-1]
+inherits = "release"
+codegen-units = 1
+
+[profile.cpu-target]
+inherits = "release"
+# This does not affect --execution=wasm.
+target-cpu = native
+
+[profile.lto-fat-cg1]
+inherits = "release"
+lto = "fat"
+codegen-units = 1
