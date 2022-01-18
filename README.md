@@ -17,4 +17,4 @@ Manuals:
 [r/02]: reports/02-sync-time/README.md
 
 <!-- manuals -->
-[m/01]: reports/03-rust-flag-weights/README.md
+[m/01]: manuals/01-rust-flag-weights/README.md
