@@ -25,7 +25,7 @@ Legend:
 - lto-fat: [Link time optimization](https://doc.rust-lang.org/rustc/linker-plugin-lto.html) with argument `fat`.
 - lto-thin: [Link time optimization](https://doc.rust-lang.org/rustc/linker-plugin-lto.html) with argument `thin`.
 - cg-1: [Codegen-units](https://doc.rust-lang.org/rustc/codegen-options/index.html#codegen-units) set to one.
-- cpu-target: [target-cpu](https://doc.rust-lang.org/rustc/codegen-options/index.html#target-cpu) set to "native". This does not influence the `wasm=compiled` option.
+- ~~cpu-target: [target-cpu](https://doc.rust-lang.org/rustc/codegen-options/index.html#target-cpu) set to "native". This does not influence the `wasm=compiled` option.~~ The test for `target-cpu` was faulty and was removed from the graph.
 
 ## Experiment #2 (on [ref. hardware])
 

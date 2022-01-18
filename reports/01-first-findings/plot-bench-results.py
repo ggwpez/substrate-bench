@@ -96,7 +96,8 @@ def main():
 		#mng.window.showMaximized()
 
 		plt.savefig("out.png")
-		plt.show()
+		#plt.show()
+		return
 		
 
 def parse_file(filename, args):
