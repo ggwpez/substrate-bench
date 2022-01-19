@@ -10,7 +10,8 @@ Very simple; enable optimization flags and re-run all benchmarks.
 
 1. Clone the [Substrate repo](https://github.com/paritytech/substrate).
 2. Append a new *profile* to the `Cargo.toml`. Append [Cargo.toml.sample](Cargo.toml.sample) for your convenience.
-3. Set rust flags that cannot be configured in the `Cargo.toml`.
+3. ~~Set rust flags that cannot be configured in the `Cargo.toml`.~~
+	truns out this has no effect. dont do it.
 	```sh
 	export RUSTFLAGS="-C target-cpu=native"
 	```
