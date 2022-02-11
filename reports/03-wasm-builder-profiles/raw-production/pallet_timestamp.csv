@@ -1,0 +1,98 @@
+Pallet: "pallet_timestamp", Extrinsic: "set", Lowest values: [], Highest values: [], Steps: 50, Repeat: 20
+extrinsic_time_ns,storage_root_time_ns,reads,repeat_reads,writes,repeat_writes,proof_size_bytes
+7089,1368,0,0,0,0,0
+5864,1170,0,0,0,0,0
+5725,1120,0,0,0,0,0
+5730,1134,0,0,0,0,0
+5430,1106,0,0,0,0,0
+5507,1118,0,0,0,0,0
+5420,1085,0,0,0,0,0
+5395,1108,0,0,0,0,0
+5436,1066,0,0,0,0,0
+5193,1121,0,0,0,0,0
+5289,1105,0,0,0,0,0
+5107,1144,0,0,0,0,0
+5295,1109,0,0,0,0,0
+5195,1122,0,0,0,0,0
+5243,1103,0,0,0,0,0
+5383,1090,0,0,0,0,0
+5301,1098,0,0,0,0,0
+5390,1138,0,0,0,0,0
+5157,1101,0,0,0,0,0
+5291,1145,0,0,0,0,0
+
+Raw Storage Info
+========
+Storage: Timestamp Now (r:1 w:1)
+Storage: Babe CurrentSlot (r:1 w:0)
+
+Median Slopes Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=     5.39
+              µs
+
+Reads = 2
+Writes = 1
+
+Min Squares Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=     5.39
+              µs
+
+Reads = 2
+Writes = 1
+
+Pallet: "pallet_timestamp", Extrinsic: "on_finalize", Lowest values: [], Highest values: [], Steps: 50, Repeat: 20
+extrinsic_time_ns,storage_root_time_ns,reads,repeat_reads,writes,repeat_writes,proof_size_bytes
+3242,1404,0,0,0,0,0
+2891,1126,0,0,0,0,0
+2681,1157,0,0,0,0,0
+2631,1117,0,0,0,0,0
+2530,1079,0,0,0,0,0
+2639,1151,0,0,0,0,0
+2518,1148,0,0,0,0,0
+2596,1121,0,0,0,0,0
+2563,1098,0,0,0,0,0
+2611,1169,0,0,0,0,0
+2612,1116,0,0,0,0,0
+2650,1161,0,0,0,0,0
+2525,1126,0,0,0,0,0
+2575,1102,0,0,0,0,0
+2494,1084,0,0,0,0,0
+2638,1108,0,0,0,0,0
+2552,1138,0,0,0,0,0
+2618,1169,0,0,0,0,0
+2539,1143,0,0,0,0,0
+2598,1133,0,0,0,0,0
+
+Raw Storage Info
+========
+
+Median Slopes Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    2.611
+              µs
+
+Reads = 0
+Writes = 0
+
+Min Squares Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    2.611
+              µs
+
+Reads = 0
+Writes = 0
+

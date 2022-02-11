@@ -1,0 +1,247 @@
+Pallet: "pallet_indices", Extrinsic: "claim", Lowest values: [], Highest values: [], Steps: 50, Repeat: 20
+extrinsic_time_ns,storage_root_time_ns,reads,repeat_reads,writes,repeat_writes,proof_size_bytes
+24674,1507,0,0,0,0,0
+21373,1328,0,0,0,0,0
+20954,1289,0,0,0,0,0
+20728,1241,0,0,0,0,0
+20342,1296,0,0,0,0,0
+20352,1299,0,0,0,0,0
+20448,1285,0,0,0,0,0
+20578,1262,0,0,0,0,0
+20351,1253,0,0,0,0,0
+19918,1272,0,0,0,0,0
+20442,1295,0,0,0,0,0
+20543,1274,0,0,0,0,0
+20616,1290,0,0,0,0,0
+20976,1275,0,0,0,0,0
+20421,1279,0,0,0,0,0
+20699,1239,0,0,0,0,0
+20412,1271,0,0,0,0,0
+20175,1265,0,0,0,0,0
+20213,1295,0,0,0,0,0
+20402,1261,0,0,0,0,0
+
+Raw Storage Info
+========
+Storage: Indices Accounts (r:1 w:1)
+
+Median Slopes Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    20.44
+              µs
+
+Reads = 1
+Writes = 1
+
+Min Squares Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    20.44
+              µs
+
+Reads = 1
+Writes = 1
+
+Pallet: "pallet_indices", Extrinsic: "transfer", Lowest values: [], Highest values: [], Steps: 50, Repeat: 20
+extrinsic_time_ns,storage_root_time_ns,reads,repeat_reads,writes,repeat_writes,proof_size_bytes
+27801,1513,0,0,0,0,0
+26584,1384,0,0,0,0,0
+60335,1443,0,0,0,0,0
+26340,1324,0,0,0,0,0
+25614,1327,0,0,0,0,0
+25831,1319,0,0,0,0,0
+25497,1374,0,0,0,0,0
+25643,1356,0,0,0,0,0
+25303,1336,0,0,0,0,0
+25677,1356,0,0,0,0,0
+25971,1290,0,0,0,0,0
+25578,1318,0,0,0,0,0
+25295,1287,0,0,0,0,0
+25506,1330,0,0,0,0,0
+25528,1298,0,0,0,0,0
+25638,1292,0,0,0,0,0
+25545,1285,0,0,0,0,0
+25567,1313,0,0,0,0,0
+25655,1283,0,0,0,0,0
+25618,1339,0,0,0,0,0
+
+Raw Storage Info
+========
+Storage: Indices Accounts (r:1 w:1)
+Storage: System Account (r:1 w:1)
+
+Median Slopes Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    25.63
+              µs
+
+Reads = 2
+Writes = 2
+
+Min Squares Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    25.63
+              µs
+
+Reads = 2
+Writes = 2
+
+Pallet: "pallet_indices", Extrinsic: "free", Lowest values: [], Highest values: [], Steps: 50, Repeat: 20
+extrinsic_time_ns,storage_root_time_ns,reads,repeat_reads,writes,repeat_writes,proof_size_bytes
+24546,1539,0,0,0,0,0
+22660,1346,0,0,0,0,0
+22074,1384,0,0,0,0,0
+21651,1444,0,0,0,0,0
+21966,1363,0,0,0,0,0
+21636,1347,0,0,0,0,0
+21683,1410,0,0,0,0,0
+21837,1349,0,0,0,0,0
+21756,1328,0,0,0,0,0
+21940,1357,0,0,0,0,0
+21731,1395,0,0,0,0,0
+21621,1316,0,0,0,0,0
+21534,1304,0,0,0,0,0
+21500,1406,0,0,0,0,0
+21531,1357,0,0,0,0,0
+21447,1301,0,0,0,0,0
+21770,1365,0,0,0,0,0
+21451,1364,0,0,0,0,0
+21570,1388,0,0,0,0,0
+21808,1269,0,0,0,0,0
+
+Raw Storage Info
+========
+Storage: Indices Accounts (r:1 w:1)
+
+Median Slopes Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    21.73
+              µs
+
+Reads = 1
+Writes = 1
+
+Min Squares Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    21.73
+              µs
+
+Reads = 1
+Writes = 1
+
+Pallet: "pallet_indices", Extrinsic: "force_transfer", Lowest values: [], Highest values: [], Steps: 50, Repeat: 20
+extrinsic_time_ns,storage_root_time_ns,reads,repeat_reads,writes,repeat_writes,proof_size_bytes
+23296,1522,0,0,0,0,0
+21806,1291,0,0,0,0,0
+21875,1314,0,0,0,0,0
+21564,1312,0,0,0,0,0
+21738,1302,0,0,0,0,0
+21888,1306,0,0,0,0,0
+21869,1334,0,0,0,0,0
+21673,1313,0,0,0,0,0
+21383,1314,0,0,0,0,0
+21961,1339,0,0,0,0,0
+21788,1288,0,0,0,0,0
+28305,1365,0,0,0,0,0
+22150,1265,0,0,0,0,0
+21860,1336,0,0,0,0,0
+21407,1289,0,0,0,0,0
+21577,1274,0,0,0,0,0
+21636,1305,0,0,0,0,0
+22002,1281,0,0,0,0,0
+22006,1314,0,0,0,0,0
+21814,1330,0,0,0,0,0
+
+Raw Storage Info
+========
+Storage: Indices Accounts (r:1 w:1)
+Storage: System Account (r:1 w:1)
+
+Median Slopes Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    21.86
+              µs
+
+Reads = 2
+Writes = 2
+
+Min Squares Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    21.86
+              µs
+
+Reads = 2
+Writes = 2
+
+Pallet: "pallet_indices", Extrinsic: "freeze", Lowest values: [], Highest values: [], Steps: 50, Repeat: 20
+extrinsic_time_ns,storage_root_time_ns,reads,repeat_reads,writes,repeat_writes,proof_size_bytes
+27067,1563,0,0,0,0,0
+25043,1423,0,0,0,0,0
+25031,1364,0,0,0,0,0
+24722,1340,0,0,0,0,0
+24610,1392,0,0,0,0,0
+24706,1403,0,0,0,0,0
+24414,1381,0,0,0,0,0
+24634,1387,0,0,0,0,0
+24791,1394,0,0,0,0,0
+24713,1392,0,0,0,0,0
+24686,1436,0,0,0,0,0
+24453,1382,0,0,0,0,0
+24318,1391,0,0,0,0,0
+24492,1401,0,0,0,0,0
+24489,1537,0,0,0,0,0
+24987,1383,0,0,0,0,0
+24705,1418,0,0,0,0,0
+24980,1387,0,0,0,0,0
+24226,1397,0,0,0,0,0
+24116,1377,0,0,0,0,0
+
+Raw Storage Info
+========
+Storage: Indices Accounts (r:1 w:1)
+
+Median Slopes Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=     24.7
+              µs
+
+Reads = 1
+Writes = 1
+
+Min Squares Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=     24.7
+              µs
+
+Reads = 1
+Writes = 1
+

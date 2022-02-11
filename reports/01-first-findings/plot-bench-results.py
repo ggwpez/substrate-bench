@@ -2,6 +2,7 @@ import re
 import numpy as np
 import argparse
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 from itertools import islice
 
 class Result:
@@ -30,6 +31,7 @@ class Result:
 		elif arity == 2:
 			ax.scatter(x, y, z, label=label, alpha=.5)
 			ax.set_zlabel('Weight (lower is better)')
+			ax.view_init(elev=30, azim=45)
 		else:
 			raise Exception("Cannot show functions with arity > 2")
 		
@@ -42,7 +44,8 @@ class Meta:
 		self.params = params
 
 	def title(self):
-		return "%s.%s(%s), [s=%s, r=%s]" % (self.pallet, self.ext, ",".join(self.params), self.steps, self.reps)
+		#return "%s.%s(%s), [s=%s, r=%s]" % (self.pallet, self.ext, ",".join(self.params), self.steps, self.reps)
+		return "%s.%s(%s)" % (self.pallet, self.ext, ",".join(self.params))
 
 class Timing:
 	def __init__(self):
@@ -52,6 +55,9 @@ class Timing:
 		if self.matrix is None:
 			self.matrix = np.empty((0, len(row)))
 		self.matrix = np.vstack((self.matrix, row))
+
+def resK(n):
+	return (19.2*n, 10.8*n)
 
 def main():
 	args = parse_args()
@@ -64,14 +70,16 @@ def main():
 				results[r.meta.title()] = {}
 			results[r.meta.title()][filename] = r		
 
+	mpl.rcParams['axes.prop_cycle'] = mpl.cycler(color=["r", "k", "c"]) 
 
 	print("Baseline is %s." % files[0])
 	many = args.rows * args.cols
 	for chunk in chunks(results, many):
 		fig = plt.figure()
-		fig.set_size_inches(38.4, 21.6, forward=True)
+		(w, h) = resK(4)
+		fig.set_size_inches(w, h, forward=True)
 		fig.tight_layout()
-		fig.subplots_adjust(top=.95, bottom=.05, left=.05, right=.95, hspace=.2, wspace=.1)
+		fig.subplots_adjust(top=.95, bottom=.05, left=.05, right=.95, hspace=.5, wspace=.35)
 		for (i, title) in enumerate(chunk):
 			# Metadata is the same in all files, so just take 0.
 			meta = results[title][files[0]].meta
@@ -82,6 +90,7 @@ def main():
 				ax = fig.add_subplot(args.rows, args.cols, i+1, projection="3d")
 			else:
 				ax = fig.add_subplot(args.rows, args.cols, i+1)
+			ax.set_prop_cycle('color',[plt.cm.prism(i) for i in np.linspace(0, 1, len(files))])
 			ax.set_title(meta.title())
 			for i, file in enumerate(results[title]):
 				r = results[title][file]
@@ -95,7 +104,8 @@ def main():
 		#mng = plt.get_current_fig_manager()
 		#mng.window.showMaximized()
 
-		plt.savefig("out.png")
+		plt.savefig(args.out)
+		# Set the color cycle to red, green.
 		#plt.show()
 		return
 		
@@ -153,6 +163,7 @@ def parse_args():
 	parser.add_argument('--title', type=str, default=".*", help='Regex for bench title')
 	parser.add_argument('--arity', nargs='+', default=[0,1,2], type=int, help='Filter for function arity')
 	parser.add_argument('--grid', default='1x1', type=str, help='Grid of how many plots to show at once')
+	parser.add_argument('--out', default='/tmp/out.png', type=str, help='Output file')
 
 	args = parser.parse_args()
 	print("Filtering for '%s' bench title" % args.title)

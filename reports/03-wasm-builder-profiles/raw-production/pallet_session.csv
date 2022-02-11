@@ -1,0 +1,102 @@
+Pallet: "pallet_session", Extrinsic: "set_keys", Lowest values: [], Highest values: [], Steps: 50, Repeat: 20
+extrinsic_time_ns,storage_root_time_ns,reads,repeat_reads,writes,repeat_writes,proof_size_bytes
+41673,1601,0,0,0,0,0
+41612,1558,0,0,0,0,0
+41774,1554,0,0,0,0,0
+41510,1536,0,0,0,0,0
+41708,1560,0,0,0,0,0
+41548,1653,0,0,0,0,0
+42698,1571,0,0,0,0,0
+41750,1558,0,0,0,0,0
+41361,1630,0,0,0,0,0
+41935,1588,0,0,0,0,0
+42246,1581,0,0,0,0,0
+43182,1622,0,0,0,0,0
+42003,1554,0,0,0,0,0
+41927,1620,0,0,0,0,0
+42101,1580,0,0,0,0,0
+42417,1635,0,0,0,0,0
+42075,1669,0,0,0,0,0
+42631,1589,0,0,0,0,0
+42117,1627,0,0,0,0,0
+42413,1581,0,0,0,0,0
+
+Raw Storage Info
+========
+Storage: Staking Ledger (r:1 w:0)
+Storage: Session NextKeys (r:1 w:1)
+Storage: Session KeyOwner (r:4 w:4)
+
+Median Slopes Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=       42
+              µs
+
+Reads = 6
+Writes = 5
+
+Min Squares Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=       42
+              µs
+
+Reads = 6
+Writes = 5
+
+Pallet: "pallet_session", Extrinsic: "purge_keys", Lowest values: [], Highest values: [], Steps: 50, Repeat: 20
+extrinsic_time_ns,storage_root_time_ns,reads,repeat_reads,writes,repeat_writes,proof_size_bytes
+32268,1714,0,0,0,0,0
+31941,1511,0,0,0,0,0
+31943,1504,0,0,0,0,0
+31965,1618,0,0,0,0,0
+32722,1505,0,0,0,0,0
+31925,1608,0,0,0,0,0
+31556,1557,0,0,0,0,0
+32683,1598,0,0,0,0,0
+32725,1618,0,0,0,0,0
+32451,1611,0,0,0,0,0
+32003,1546,0,0,0,0,0
+32345,1598,0,0,0,0,0
+32257,1611,0,0,0,0,0
+32220,1520,0,0,0,0,0
+32358,1578,0,0,0,0,0
+32289,1616,0,0,0,0,0
+32233,1540,0,0,0,0,0
+32508,1576,0,0,0,0,0
+39237,1605,0,0,0,0,0
+32495,1574,0,0,0,0,0
+
+Raw Storage Info
+========
+Storage: Staking Ledger (r:1 w:0)
+Storage: Session NextKeys (r:1 w:1)
+Storage: Session KeyOwner (r:0 w:4)
+
+Median Slopes Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    32.28
+              µs
+
+Reads = 2
+Writes = 5
+
+Min Squares Analysis
+========
+-- Extrinsic Time --
+
+Model:
+Time ~=    32.28
+              µs
+
+Reads = 2
+Writes = 5
+
