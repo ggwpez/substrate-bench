@@ -3,11 +3,9 @@ import subprocess
 import datetime
 
 base_compile = "cargo build --profile=%s --locked --features=runtime-benchmarks --features=runtime-benchmarks --manifest-path=bin/node/cli/Cargo.toml"
-bench = "./target/%s/substrate benchmark --chain=dev --steps=50 --repeat=20 --pallet='%s' --extrinsic='%s' --execution=wasm --wasm-execution=compiled --heap-pages=4096 --output=%s/weights.rs --template=.maintain/frame-weight-template.hbs --header=HEADER-APACHE2 --raw"
+bench = "./target/%s/substrate benchmark --chain=%s --steps=%s --repeat=%s --pallet='%s' --extrinsic='%s' --execution=wasm --wasm-execution=compiled --heap-pages=4096 --output=%s/weights.rs --template=.maintain/frame-weight-template.hbs --header=HEADER-APACHE2 --json-file %s"
 
 def main(args):
-	subprocess.run("mkdir -p %s" % args.raw_dir, shell=True)
-
 	# Compile all pallets. Otherwise `cargo run` would re-compile each pallet.
 	if args.no_compile:
 		log("Compiling ... SKIPPED")
@@ -29,7 +27,7 @@ def main(args):
 		log(msg + " ...")
 		run_cases(pallet, args)
 	
-	log("🎉 Raws written to '%s', weights to '%s'" % (args.raw_dir, args.weight_dir))
+	log("🎉 Weights in '%s', json output in '%s'" % (args.weight_dir, args.json_dir))
 	log("You can enact the new weights with\ncp -RT %s/frame %s/frame" % (args.weight_dir, args.cwd))
 
 def run_cases(pallet, args):
@@ -38,15 +36,14 @@ def run_cases(pallet, args):
 	out_dir = "%s/frame/%s/src/" % (args.weight_dir, name)
 	subprocess.run("mkdir -p %s" % out_dir, shell=True)
 	
-	# Run all the cases for this pallet.gs
-	cmd = bench % (args.profile, pallet, "*", out_dir)
-	with open("%s/%s.csv" % (args.raw_dir, pallet), "w") as f:
-		p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=args.cwd)
-		stdout, stderr = p.communicate()
-		# check the exit code of the process.
-		if p.returncode != 0:
-			raise Exception("Rust:\n\n%s\nfrom:%s" % (stderr.decode('utf-8'), cmd))
-		f.write(stdout.decode('utf-8'))
+	# Run all the cases for this pallet.
+	cmd = bench % (args.profile, args.runtime, args.steps, args.repeat, pallet, "*", out_dir, args.json_dir)
+	p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=args.cwd)
+	# Wait for the process to finish.
+	stdout, stderr = p.communicate()
+	# check the exit code of the process.
+	if p.returncode != 0:
+		raise Exception("Rust:\n\n%s\nfrom:%s" % (stderr.decode('utf-8'), cmd))
 
 def compile(args):
 	cmd = base_compile % args.profile
@@ -57,7 +54,7 @@ def compile(args):
 		raise Exception("Rust:\n\n%s" % stderr.decode('utf-8'))
 
 def list_benches(args):
-	cmd = bench % (args.profile, "*", "*", ".")  + " --list"
+	cmd = bench % (args.profile, args.runtime, "1", "1", "*", "*", ".", ".")  + " --list"
 	p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=args.cwd)
 	stdout, stderr = p.communicate()
 	# check the exit code of the process.
@@ -81,28 +78,56 @@ def list_benches(args):
 
 def parse_args():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--profile', type=str, help='Rust profile')
+	parser.add_argument('--profile', type=str, help='Rust profile', default="production")
 	parser.add_argument('--cwd', type=str, help='Substrate root directory', default=".")
-	parser.add_argument('--skip', nargs='+', help='Comma-separated list of pallets to skip.', default="")
+	parser.add_argument('--runtime', type=str, help='Substrate runtime', default='dev')
+	parser.add_argument('--skip', nargs='+', help='List of pallets to skip.', default="")
 	parser.add_argument('--no-compile', action='store_true', help='Skip compilation.')
 	parser.add_argument('--weight-dir', type=str, help='Relative weight output directory', default=None)
-	parser.add_argument('--raw-dir', type=str, help='Relative raw output directory', default=None)
+	parser.add_argument('--json-dir', type=str, help='Relative json output directory', default=None)
+	parser.add_argument('--repeat', type=int, help='Repeat the benchmark this many times.', default=20)
+	parser.add_argument('--steps', type=int, help='Number of resolution steps per benchmark.', default=50)
+	parser.add_argument('--debug', action='store_true', help='Debug mode.')
 	args = parser.parse_args()
+	if args.debug:
+		args.repeat = 1
+		args.steps = 1
+		args.profile = 'release'
+
 	if args.weight_dir is None:
 		args.weight_dir = "%s/weights-%s" % (args.cwd, args.profile)
-	if args.raw_dir is None:
-		args.raw_dir = "%s/raw-%s" % (args.cwd, args.profile)
+	if args.json_dir is None:
+		args.json_dir = "%s/json-%s" % (args.cwd, args.profile)
+	if args.profile is None:
+		parser.error("--profile is required. Use 'production' for real benchmarking results but takes forever to compile.")
+	
 	return args
 
-def progress(count, total, status=''):
-    bar_len = 60
-    filled_len = int(round(bar_len * count / float(total)))
+def help():
+	print("""
+Usage:
+  ./run.py [--cwd <path to substrate>] [--runtime <RUNTIME>] [--debug]
 
-    percents = round(100.0 * count / float(total), 1)
-    bar = '=' * filled_len + '-' * (bar_len - filled_len)
+Options:
+  --profile: Rust profile to use.
+  --cwd: Substrate root directory.
+  --runtime: Runtime to use.
+  --skip: List of pallets to skip.
+  --no-compile: Skip compilation.
+  --weight-dir: Relative weight output directory.
+  --json-dir: Relative json output directory.
+  --repeat: Repeat the benchmark this many times.
+  --steps: Number of resolution steps per benchmark.
 
-    sys.stdout.write('[%s] %s%s ...%s\r' % (bar, percents, '%', status))
-    sys.stdout.flush()
+Example for debugging the script (use this first):
+  ./run.py --debug --cwd ~/substrate/
+
+is equivalent to:
+  python run.py --profile release --cwd ~/substrate/ --steps 1 --repeat 1
+
+Example for real results on ref hardware:
+  python run.py --cwd ~/substrate/
+""")
 
 def log(msg):
 	print("%s: %s" % (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), msg))
