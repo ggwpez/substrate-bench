@@ -1,9 +1,29 @@
 import argparse
 import subprocess
 import datetime
+from config import parse_args
 
-base_compile = "cargo build --profile=%s --locked --features=runtime-benchmarks --features=runtime-benchmarks --manifest-path=bin/node/cli/Cargo.toml"
-bench = "./target/%s/substrate benchmark --chain=%s --steps=%s --repeat=%s --pallet='%s' --extrinsic='%s' --execution=wasm --wasm-execution=compiled --heap-pages=4096 --output=%s/weights.rs --template=.maintain/frame-weight-template.hbs --header=HEADER-APACHE2 --json-file %s"
+base_compile = "%s build --bin %s --profile=%s --locked --features=runtime-benchmarks"
+bench = "./target/%s/%s benchmark --chain=%s --steps=%s --repeat=%s --pallet='%s' --extrinsic='%s' --execution=wasm --wasm-execution=compiled --heap-pages=4096 --output=%s"# --template=%s --header=%s"
+
+def build_compile_cmd(args):
+	if args.cargo_remote:
+		# Copy back the build artefact.
+		remote = "cargo remote -c %s/%s --" % (args.profile, args.project)
+		return base_compile % (remote, args.project, args.profile)
+	else:
+		return base_compile % ("cargo", args.project, args.profile)
+
+def build_bench_cmd(args, pallet, case, out_dir):
+	if args.project == "substrate":
+		#weight_path = "%s/frame/%s/src/weights.rs" % (args.weight_dir, pallet)
+		weight_path = out_dir
+	else:
+		# TODO
+		weight_path = "/tmp/weight.rs"
+	# TODO Json
+	return bench % (args.profile, args.project, args.runtime, args.steps, args.repeat, pallet, case, weight_path)
+	#, args.template, args.header)
 
 def main(args):
 	# Compile all pallets. Otherwise `cargo run` would re-compile each pallet.
@@ -37,16 +57,16 @@ def run_cases(pallet, args):
 	subprocess.run("mkdir -p %s" % out_dir, shell=True)
 	
 	# Run all the cases for this pallet.
-	cmd = bench % (args.profile, args.runtime, args.steps, args.repeat, pallet, "*", out_dir, args.json_dir)
+	cmd = build_bench_cmd(args, pallet, "*", out_dir)
 	p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=args.cwd)
 	# Wait for the process to finish.
 	stdout, stderr = p.communicate()
 	# check the exit code of the process.
 	if p.returncode != 0:
-		raise Exception("Rust:\n\n%s\nfrom:%s" % (stderr.decode('utf-8'), cmd))
+		print("Rust:\n\n%s\nfrom:%s" % (stderr.decode('utf-8'), cmd))
 
 def compile(args):
-	cmd = base_compile % args.profile
+	cmd = build_compile_cmd(args)
 	p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=args.cwd)
 	stdout, stderr = p.communicate()
 	# check the exit code of the process.
@@ -54,7 +74,7 @@ def compile(args):
 		raise Exception("Rust:\n\n%s" % stderr.decode('utf-8'))
 
 def list_benches(args):
-	cmd = bench % (args.profile, args.runtime, "1", "1", "*", "*", ".", ".")  + " --list"
+	cmd = build_bench_cmd(args, "*", "*", ".") + " --list"
 	p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=args.cwd)
 	stdout, stderr = p.communicate()
 	# check the exit code of the process.
@@ -76,33 +96,6 @@ def list_benches(args):
 			raise Exception("Pallet %s is not found in the benchmark list." % pallet)
 	return per_pallet
 
-def parse_args():
-	parser = argparse.ArgumentParser()
-	parser.add_argument('--profile', type=str, help='Rust profile', default="production")
-	parser.add_argument('--cwd', type=str, help='Substrate root directory', default=".")
-	parser.add_argument('--runtime', type=str, help='Substrate runtime', default='dev')
-	parser.add_argument('--skip', nargs='+', help='List of pallets to skip.', default="")
-	parser.add_argument('--no-compile', action='store_true', help='Skip compilation.')
-	parser.add_argument('--weight-dir', type=str, help='Relative weight output directory', default=None)
-	parser.add_argument('--json-dir', type=str, help='Relative json output directory', default=None)
-	parser.add_argument('--repeat', type=int, help='Repeat the benchmark this many times.', default=20)
-	parser.add_argument('--steps', type=int, help='Number of resolution steps per benchmark.', default=50)
-	parser.add_argument('--debug', action='store_true', help='Debug mode.')
-	args = parser.parse_args()
-	if args.debug:
-		args.repeat = 1
-		args.steps = 1
-		args.profile = 'release'
-
-	if args.weight_dir is None:
-		args.weight_dir = "%s/weights-%s" % (args.cwd, args.profile)
-	if args.json_dir is None:
-		args.json_dir = "%s/json-%s" % (args.cwd, args.profile)
-	if args.profile is None:
-		parser.error("--profile is required. Use 'production' for real benchmarking results but takes forever to compile.")
-	
-	return args
-
 def help():
 	print("""
 Usage:
@@ -119,14 +112,14 @@ Options:
   --repeat: Repeat the benchmark this many times.
   --steps: Number of resolution steps per benchmark.
 
-Example for debugging the script (use this first):
-  ./run.py --debug --cwd ~/substrate/
+Example for debugging:
+  ./run.py --debug --project substrate --cwd ~/substrate/
 
 is equivalent to:
-  python run.py --profile release --cwd ~/substrate/ --steps 1 --repeat 1
+  python run.py --profile release --project substrate --cwd ~/substrate/ --steps 1 --repeat 1
 
 Example for real results on ref hardware:
-  python run.py --cwd ~/substrate/
+  python run.py --project substrate --cwd ~/substrate/
 """)
 
 def log(msg):
