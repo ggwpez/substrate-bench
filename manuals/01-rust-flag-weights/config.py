@@ -1,3 +1,5 @@
+import argparse
+
 def parse_args():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--profile', type=str, help='Rust profile', default="production")
@@ -17,7 +19,7 @@ def parse_args():
 	args = parser.parse_args()
 	if args.debug:
 		args.repeat = 1
-		args.steps = 1
+		args.steps = 2
 		args.profile = 'release'
 	if args.project == "substrate" and args.template is None:
 		args.template = ".maintain/frame-weight-template.hbs"
@@ -25,10 +27,10 @@ def parse_args():
 		raise Exception("--project must be specified.")
 	
 	if args.weight_dir is None:
-		args.weight_dir = "%s/weights-%s" % (args.cwd, args.profile)
+		args.weight_dir = "%s/weights-%s-%s" % (args.cwd, args.runtime, args.profile)
 	if args.json_dir is None:
-		args.json_dir = "%s/json-%s" % (args.cwd, args.profile)
+		args.json_dir = "%s/json-%s-%s" % (args.cwd, args.runtime, args.profile)
 	if args.profile is None:
-		parser.error("--profile is required. Use 'production' for real benchmarking results but takes forever to compile.")
+		parser.error("--profile is required. Use 'production' for real benchmarking results.")
 	
 	return args

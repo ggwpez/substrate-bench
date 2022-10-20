@@ -4,12 +4,12 @@ import datetime
 from config import parse_args
 
 base_compile = "%s build --bin %s --profile=%s --locked --features=runtime-benchmarks"
-bench = "./target/%s/%s benchmark --chain=%s --steps=%s --repeat=%s --pallet='%s' --extrinsic='%s' --execution=wasm --wasm-execution=compiled --heap-pages=4096 --output=%s"# --template=%s --header=%s"
+bench = "./target/%s/%s benchmark pallet --chain=%s --steps=%s --repeat=%s --pallet='%s' --extrinsic='%s' --execution=wasm --wasm-execution=compiled --heap-pages=4096 --output=%s"# --template=%s --header=%s"
 
 def build_compile_cmd(args):
 	if args.cargo_remote:
 		# Copy back the build artefact.
-		remote = "cargo remote -c %s/%s --" % (args.profile, args.project)
+		remote = "cargo remote -H home -c %s/%s --" % (args.profile, args.project)
 		return base_compile % (remote, args.project, args.profile)
 	else:
 		return base_compile % ("cargo", args.project, args.profile)
@@ -89,7 +89,7 @@ def list_benches(args):
 			per_pallet[pallet] = [case]
 		else:
 			per_pallet[pallet].append(case)
-	log("Running %d cases across %d pallets. Skipping %d pallets." % (len(cases), len(per_pallet), len(args.skip)))
+	log("Running %d cases across %d pallets. Skipped %d pallets." % (len(cases), len(per_pallet), len(args.skip)))
 	# Check that skip is a subset of the per_pallet.keys.
 	for pallet in args.skip:
 		if pallet not in per_pallet:
