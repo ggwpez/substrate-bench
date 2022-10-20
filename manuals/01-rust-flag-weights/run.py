@@ -41,7 +41,7 @@ def main(args):
 	# Run all benchmarks.
 	for i, pallet in enumerate(pallets):
 		msg = "[%d/%d] %s: %d cases" % (i+1, len(pallets), pallet, len(per_pallet[pallet]))
-		if pallet in args.skip:
+		if pallet in args.skip or (len(args.pallets) != 0 and pallet not in args.pallets):
 			log(msg + " ... SKIPPED")
 			continue
 		log(msg + " ...")
@@ -106,6 +106,7 @@ Options:
   --cwd: Substrate root directory.
   --runtime: Runtime to use.
   --skip: List of pallets to skip.
+  --pallets: Only run for these pallets.
   --no-compile: Skip compilation.
   --weight-dir: Relative weight output directory.
   --json-dir: Relative json output directory.

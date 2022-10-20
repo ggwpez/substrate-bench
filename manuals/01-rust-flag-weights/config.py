@@ -8,6 +8,7 @@ def parse_args():
 	parser.add_argument('--header', type=str, help='Header file to include.', default="HEADER-APACHE2")
 	parser.add_argument('--runtime', type=str, help='Runtime to use.', default='dev')
 	parser.add_argument('--skip', nargs='+', help='List of pallets to skip.', default="")
+	parser.add_argument('--pallets', nargs='+', help='Only run for these pallets.', default="")
 	parser.add_argument('--cargo-remote', action='store_true', help='Use cargo-remote for building.')
 	parser.add_argument('--no-compile', action='store_true', help='Skip compilation.')
 	parser.add_argument('--weight-dir', type=str, help='Relative weight output directory', default=None)
