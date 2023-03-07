@@ -1,6 +1,8 @@
 # Observation
 
-Multiple benchmarks exhibited unstable result behaviour when re-run on the same dedicated reference hardware.  
+1. The base weight of `Utility::batch` and multiple contract functions are unstable when re-run multiple times.
+2. The weight of `StateTrieMigration::migrate_custom_child_success` weight is unstable.
+3. Multiple benchmarks exhibited unstable result behaviour when re-run on the same dedicated reference hardware.  
 
 ![](observation.png)
 ![](observation_2.png)
@@ -10,11 +12,11 @@ This leads to confusion and delays when transitioning to the new VM runners.
 
 # Local Investigation
 
-## `migrate-custom-child-success`
+## `migrate_custom_child_success`
 
 Reproducing this issue locally was done by re-running the same benchmark many times with same parameters by using [this](https://github.com/ggwpez/substrate-scripts/blob/master/print-frame-cli-output/frame-cli-multiple.sh) script. Results can be plotted with [this](https://github.com/ggwpez/substrate-scripts/blob/master/print-frame-cli-output/print.py) one.  
 
-The first local testing focused on `migrate-custom-child-success` from pallet `state-trie-migration`. Running it multiple times showed odd behaviour whereas normally the result would settle to 5µs in 90% of the cases, but in the other cases it spiked to ~9µs. Reproducible. It seemed like the benchmark had two stable output states: 5µs and 9µs.  
+The first local testing focused on `migrate_custom_child_success` from pallet `state-trie-migration`. Running it multiple times showed odd behaviour whereas normally the result would settle to 5µs in 90% of the cases, but in the other cases it spiked to ~9µs. Reproducible. It seemed like the benchmark had two stable output states: 5µs and 9µs.  
 Plotting two hand-picked results which exhibit this behaviour look like this:
 
 ![](local.png)
