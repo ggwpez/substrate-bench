@@ -75,6 +75,8 @@ Looks very linear with the occasional outlier. Running the same on the new VM re
 :-:|:-:
 ![](batch-20-vm.png)  |  ![](batch-200-vm.png)
 
+And for comparison `bm2`, also very linear:
+
 `bm2` 20 Reps | `bm2` 200 Reps
 :-:|:-:
 ![](batch-20-bm2.png)  |  ![](batch-200-bm2.png)
