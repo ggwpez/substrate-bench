@@ -88,3 +88,12 @@ The y-axis offset of the linear fittings calculated by FRAME for these results v
 ![](batch-20-vm-fittings.png)  |  ![](batch-200-vm-fittings.png)
 
 It can be seen that the calculated linear fitting is very good in both cases, no matter whether the base weight fluctuates by 30 µs or not.
+
+Further analysis of the last 10 master commits at around `435446fe0` did not show any abnormal behaviour either.  
+
+`bm2 (Last 10 commits)` 20 Reps | `bm2 (Last 10 commits)` 200 Reps
+:-:|:-:
+![](bm2-master-10-batch-20.png)  |  ![](bm2-master-10-batch-200.png)
+
+The linear fitting groups are strongest around 4-4.3 and spike up to 4.7 for 20 reps and 4.6 for 200 reps.  
+I therefore conclude that the `Utility::batch` benchmark is *stable* and the variance in weight only comes from fluctuating base-weight calculation. Note that in this case there is no base weight and therefore the linear fitting will report different (invalid) values in the range of -110 - 35µs.
